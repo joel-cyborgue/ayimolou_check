@@ -5,11 +5,13 @@ from "react-native";
 import markers from "@/assets/markers";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput } from "react-native";
-
+import ArrowUp from "../assets/svg/up_down.svg";
 const offset = 0.005; // ajuste selon la hauteur souhaitée
+
 const HomeScreen = () => {
   const mapRef = useRef<MapView>(null);
   const [selectedCard, setSelectedCard] = useState("");
+  const [expanded, setExpanded] = useState(true);
 
   return (
     <SafeAreaView className="flex-1 bg-primary">
@@ -35,7 +37,10 @@ const HomeScreen = () => {
         ))}
       </MapView>
       <View style={styles.markerListContainer}>
-        <FlatList
+        <Pressable onPress={() => setExpanded(!expanded)} className="items-center p-1 h-8 w-8 rounded-full shadow-md bg-primary m-2">
+          <ArrowUp style={{ transform: [{ rotate: expanded ? "180deg" : "0deg" }] }} width={24} height={24} fill="black" />
+        </Pressable>
+        {expanded && (<FlatList
           numColumns={2}
           className="w-full h-[420px]"
           data={markers}
@@ -78,7 +83,7 @@ const HomeScreen = () => {
             </Pressable>
           )}
           showsHorizontalScrollIndicator={false}
-        />
+        />)}
       </View>
     </SafeAreaView>
   );
